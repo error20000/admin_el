@@ -1,0 +1,35 @@
+@charset "utf-8";
+/*引入配置*/
+@import "./variable";
+
+@mixin font_size($size){/*通过该函数设置字体大小，后期方便统一管理；*/
+  /* @include font-dpr($size); */
+}
+
+@mixin font_color($color){/*通过该函数设置字体颜色，后期方便统一管理；*/
+	color:$color;
+  [data-theme="theme1"] & {
+    color:$font-color-theme1;
+  }
+  [data-theme="theme2"] & {
+    color:$font-color-theme2;
+  }
+  [data-theme="theme3"] & {
+    color:$font-color-theme3;
+  }
+}
+
+/*通过该函数设置主题颜色，后期方便统一管理；*/
+@mixin head_bg_color($color: $background-color-header-theme){
+  background-color: $color;
+}
+
+@mixin nav_active_bg_color($color: $background-color-nav-active-theme){
+  background-color: $color;
+}
+@mixin nav_text_color($color: $color-nav-text-theme){
+  color: $color;
+}
+@mixin nav_active_text_color($color: $color-nav-active-text-theme){
+  color: $color;
+}
