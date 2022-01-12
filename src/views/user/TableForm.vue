@@ -3,13 +3,20 @@
 		<!-- head tool -->
 		<el-col :span="24" class="toolbar" style="margin-bottom: 10px;">
 			<!-- 顶部工具栏slot -->
-			<slot name="headToolbar">
+			<slot name="head_tool">
+				<div style="float:left;">
+					<slot name="head_tool_left">
+					<!-- <el-button type="danger" >{{$t('label.title.batchDel')}}</el-button> -->
+					</slot>
+				</div>
 				<div style="float:right;">
-					<i class="head-item-icon el-icon-refresh" title="刷新" @click="handleRefresh"></i>
-					<el-popover trigger="click">
-						<columns-set :columns="columns" @columnChange="handleColumnChange"></columns-set>
-						<i slot="reference" class="head-item-icon el-icon-setting" title="列设置"></i>
-					</el-popover>
+					<slot name="head_tool_left">
+						<i class="head-item-icon el-icon-refresh" title="刷新" @click="handleRefresh"></i>
+						<el-popover trigger="click">
+							<columns-set :columns="columns" @columnChange="handleColumnChange"></columns-set>
+							<i slot="reference" class="head-item-icon el-icon-setting" title="列设置"></i>
+						</el-popover>
+					</slot>
 				</div>
 			</slot>
 		</el-col>
@@ -52,16 +59,24 @@
 		<!-- page tool -->
 		<el-col :span="24" class="toolbar" style="margin-top: 10px;">
 			<!-- 底部工具栏slot -->
-			<slot name="pageToolbar">
+			<slot name="page_tool">
+				<div style="float:left;">
+					<slot name="page_tool_left">
 				<!-- <el-button type="danger" @click="handleBatchDel" :disabled="this.sels.length===0" v-hasAuth="authKey.batchDel">{{$t('label.title.batchDel')}}</el-button> -->
-				<el-pagination layout="total, sizes, prev, pager, next, jumper" 
-					@size-change="handleSizeChange" 
-					@current-change="handleCurrentChange" 
-					:page-sizes="[1, 10, 20, 50, 100]" 
-					:current-page="page" 
-					:page-size="rows" 
-					:total="total" style="float:right;">
-				</el-pagination>
+					</slot>
+				</div>
+				<div style="float:right;">
+					<slot name="page_tool_right">
+						<el-pagination layout="total, sizes, prev, pager, next, jumper" 
+							@size-change="handleSizeChange" 
+							@current-change="handleCurrentChange" 
+							:page-sizes="[10, 20, 50, 100]" 
+							:current-page="page" 
+							:page-size="rows" 
+							:total="total">
+						</el-pagination>
+					</slot>
+				</div>
 			</slot>
 		</el-col>
 	</div>
@@ -102,7 +117,7 @@ export default {
 		for (let key in this.fields) {
 			let item = this.fields[key];
 			if(!!(item.table.show == false || item.show == false && !(item.show == false && item.table.show == true))){
-				continue;
+				continue;//不显示的不加入列表
 			}
 			this.columns.push({ ...item, checked: true });
 		}
@@ -167,7 +182,7 @@ export default {
 				this.listLoading = false;
 			});
 		},
-		//
+		//Column 
 		handleColumnChange(columns){
 			this.columns = columns;
 		}
