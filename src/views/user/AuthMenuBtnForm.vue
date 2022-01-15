@@ -52,8 +52,8 @@
 			</el-form-item>
 		</el-form>
 		<div slot="footer" class="dialog-footer">
-			<el-button @click="authClose">{{$t('dialog.cancel')}}</el-button>
-			<el-button type="primary" @click="authSubmit" :loading="authLoading">{{$t('dialog.submit')}}</el-button>
+			<el-button @click="authClose">{{$t('page.dialog.cancel')}}</el-button>
+			<el-button type="primary" @click="authSubmit" :loading="authLoading">{{$t('page.dialog.submit')}}</el-button>
 		</div>
 	</el-dialog>
 </template>
@@ -172,7 +172,7 @@ export default {
 		authSubmit: function () {
 			this.$refs.authForm.validate((valid) => {
 				if (valid) {
-					this.$confirm(i18n.t('confirm.content'), i18n.t('confirm.title'), {}).then(() => {
+					this.$confirm(i18n.t('page.confirm.content'), i18n.t('page.confirm.title'), {}).then(() => {
 						this.authLoading = true;
 						let params = {
 							userId: this.userId,

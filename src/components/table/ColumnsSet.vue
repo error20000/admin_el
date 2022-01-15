@@ -2,9 +2,9 @@
   <div class="ant-dropdown-menu s-tool-column ant-dropdown-content">
     <div class="column-header column-item">
       <el-checkbox class="checkbox" :indeterminate="indeterminate" v-model="checkAll" @change="handleCheckAllChange">
-        列展示
+        {{$t('page.label.column')}}
       </el-checkbox>
-      <a class="reset" @click="reset">重置</a>
+      <a class="reset" @click="reset" :title="$t('page.title.reset')">{{$t('page.label.reset')}}</a>
     </div>
     <el-divider class="divider"></el-divider>
     <div class="ant-checkbox-group">

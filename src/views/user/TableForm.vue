@@ -1,96 +1,72 @@
 <template>
-	<div>
-		<!-- head tool -->
-		<el-col :span="24" class="toolbar" style="margin-bottom: 10px;">
-			<!-- 顶部工具栏slot -->
-			<slot name="head_tool">
-				<div style="float:left;">
-					<slot name="head_tool_left">
-					<!-- <el-button type="danger" >{{$t('label.title.batchDel')}}</el-button> -->
-					</slot>
-				</div>
-				<div style="float:right;">
-					<slot name="head_tool_left">
-						<i class="head-item-icon el-icon-refresh" title="刷新" @click="handleRefresh"></i>
-						<el-popover trigger="click">
-							<columns-set :columns="columns" @columnChange="handleColumnChange"></columns-set>
-							<i slot="reference" class="head-item-icon el-icon-setting" title="列设置"></i>
-						</el-popover>
-					</slot>
-				</div>
+	<x-table :fields="fields" 
+		:list="list" 
+		:total="total" 
+		:page="page" 
+		:rows="rows" 
+		:loading="listLoading"
+		@query="handleList"
+		@sort="handleSort">
+
+		<!-- 顶部工具栏 -->
+		<template v-slot:header>
+			<slot name="header"></slot>
+		</template>
+		<template v-slot:header_left>
+			<slot name="header_left"></slot>
+		</template>
+		<template v-slot:header_right>
+			<slot name="header_right"></slot>
+		</template>
+
+		<!-- 首列 -->
+		<template v-slot:column_first>
+			<slot name="column_first">
+				<el-table-column type="selection" width="50"></el-table-column>
+				<!-- <el-table-column type="index" width="50"></el-table-column> -->
 			</slot>
-		</el-col>
+		</template>
+		
+		<!-- 字段列 -->
+		<template v-for="item in fields" v-slot:[`column_`+item.field]>
+			<slot :name="`column_`+item.field"></slot>
+		</template>
 
-		<!-- Table -->
-		<el-table :data="list" highlight-current-row border v-loading="listLoading" style="width: 100%;" class="mytable" >
-			<!-- <el-table-column type="selection" width="50"></el-table-column> -->
-			<template v-for="(item, name) in columns">
-				<!-- 为保留默认cell，这里只有全局slot -->
-				<slot :name="`item_`+item.field">
-					<el-table-column  
-						v-if="item.checked" 
-						:key="name"
-						:label="item.name" :prop="item.field" 
-						:width="item.table.width"
-						:fixed="item.table.fixed"
-						:formatter="item.table.formatter"
-						:min-width="tableMaxWidth[name]" 
-						:class-name="'tableFlexWidth-'+name">
-
-						<!-- slot format pic -->
-						<template v-if="item.form.type == 5" v-slot:default="scope">
-							<span style="display: block;line-height: 0;height:40px;">
-								<img :src="scope.row[item.field]" :alt="scope.row[item.field]" :title="scope.row[item.field]" style="max-width: 100%;max-height: 100%;" />
-							</span>
-						</template>
-
-					</el-table-column>
-				</slot>
-			</template>
-
-			<!-- action -->
-			<el-table-column fixed="right" :label="$t('label.action')" width="100" align="center">
-				<template slot-scope="scope">
-					<slot name="action" :row="scope.row" :column="scope.column" :$index="scope.$index"></slot>
-				</template>
-			</el-table-column>
-		</el-table>
-
-		<!-- page tool -->
-		<el-col :span="24" class="toolbar" style="margin-top: 10px;">
-			<!-- 底部工具栏slot -->
-			<slot name="page_tool">
-				<div style="float:left;">
-					<slot name="page_tool_left">
-				<!-- <el-button type="danger" @click="handleBatchDel" :disabled="this.sels.length===0" v-hasAuth="authKey.batchDel">{{$t('label.title.batchDel')}}</el-button> -->
-					</slot>
-				</div>
-				<div style="float:right;">
-					<slot name="page_tool_right">
-						<el-pagination layout="total, sizes, prev, pager, next, jumper" 
-							@size-change="handleSizeChange" 
-							@current-change="handleCurrentChange" 
-							:page-sizes="[10, 20, 50, 100]" 
-							:current-page="page" 
-							:page-size="rows" 
-							:total="total">
-						</el-pagination>
-					</slot>
-				</div>
+		<!-- 尾列 -->
+		<template v-slot:column_tail>
+			<slot name="column_tail">
+				<!-- 操作列 -->
+				<el-table-column fixed="right" :label="$t('page.label.action')" width="100" align="center">
+					<template slot-scope="scope">
+						<slot name="action" :row="scope.row" :column="scope.column" :$index="scope.$index"></slot>
+					</template>
+				</el-table-column>
 			</slot>
-		</el-col>
-	</div>
+		</template>
+		
+		<!-- 顶部工具栏插槽 -->
+		<template v-slot:footer>
+			<slot name="footer"></slot>
+		</template>
+		<template v-slot:footer_left>
+			<slot name="footer_left"></slot>
+		</template>
+		<template v-slot:footer_right>
+			<slot name="footer_right"></slot>
+		</template>
+
+	</x-table>
 </template>
 
 <script>
 
 import { USER_LIST } from "@/api";
 import fields from "./config/fields.js";
-import ColumnsSet from "@/components/table/ColumnsSet.vue";
+import XTable from "@/components/table/XTable.vue";
 
 export default {
     components: {
-		ColumnsSet
+		XTable
     },
 	props:{
 		filterForm: {
@@ -107,44 +83,11 @@ export default {
 			page: 1,
 			rows: 10,
 			listLoading: false,
-
-			tableMaxWidth: {},
+			sortBy: "",
+			sortOrder: "",
 			fields: fields,
-			columns: []
 		}
 	},
-	created(){
-		for (let key in this.fields) {
-			let item = this.fields[key];
-			if(!!(item.table.show == false || item.show == false && !(item.show == false && item.table.show == true))){
-				continue;//不显示的不加入列表
-			}
-			this.columns.push({ ...item, checked: true });
-		}
-	},
-	watch:{
-		//表格宽度自适应
-		// list: function(){
-		// 	if(!this.tableMaxWidth){
-		// 		return;
-		// 	}
-		// 	this.$nextTick(function () { 
-		// 		for ( var key in this.fields) {
-		// 			let tempMaxWidth = 0;
-		// 			try {
-		// 				for (let i = 0; i <  document.getElementsByClassName("tableFlexWidth-"+key).length; i++){
-		// 					let element =  document.getElementsByClassName("tableFlexWidth-"+key)[i];
-		// 					let width = element.querySelectorAll('div')[0].offsetWidth;
-		// 					tempMaxWidth = tempMaxWidth < width ? width : tempMaxWidth;
-		// 				}
-		// 			} catch (error) {
-		// 				console.error(error);
-		// 			}
-		// 			this.$set(this.tableMaxWidth, key, tempMaxWidth);
-		// 		}
-		// 	});
-		// }
-	}, 
 	methods: {
 		//query
 		handleQuery(){
@@ -155,18 +98,22 @@ export default {
 			this.getList();
 		},
 		//table
-		handleSizeChange: function (val) {
-			this.rows = val;
+		handleList(page, rows){
+			this.page = page;
+			this.rows = rows;
 			this.getList();
 		},
-		handleCurrentChange: function (val) {
-			this.page = val;
+		handleSort: function (sortBy, sortOrder) {
+			this.sortBy = sortBy;
+			this.sortOrder = sortOrder;
 			this.getList();
 		},
 		getList: function(){
 			let params = {
 				page: this.page,
 				rows: this.rows,
+				sortBy: this.sortBy,
+				sortOrder: this.sortOrder,
 			}
 			for ( var key in this.filterForm) {
 				if(this.filterForm[key]){
@@ -182,23 +129,12 @@ export default {
 				this.listLoading = false;
 			});
 		},
-		//Column 
-		handleColumnChange(columns){
-			this.columns = columns;
-		}
   	},
-  	mounted: function() {
-		this.handleQuery();
+  	mounted() {
+		
 	}
 }
 </script>
 
 <style scoped>
-	.head-item-icon{
-		color: rgba(0, 0, 0, 0.3);
-		margin-right: 10px;
-		font-size: 18px;
-		vertical-align: middle;
-		cursor: pointer;
-	}
 </style>

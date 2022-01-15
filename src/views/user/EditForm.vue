@@ -1,10 +1,10 @@
 <template>
 	<!-- edit -->
-	<el-dialog :title="$t('label.title.edit')" :visible.sync="editFormVisible" :close-on-click-modal="false">	
+	<el-dialog :title="$t('page.dialog.edit')" :visible.sync="editFormVisible" :close-on-click-modal="false">	
 		<edit :fields="fields" :rules="rules" ref="editForm"></edit>
 		<div slot="footer" class="dialog-footer">
-			<el-button @click="editClose">{{$t('dialog.cancel')}}</el-button>
-			<el-button type="primary" @click="editSubmit" :loading="editLoading">{{$t('dialog.submit')}}</el-button>
+			<el-button @click="editClose">{{$t('page.dialog.cancel')}}</el-button>
+			<el-button type="primary" @click="editSubmit" :loading="editLoading">{{$t('page.dialog.submit')}}</el-button>
 		</div>
 	</el-dialog>
 </template>
@@ -53,7 +53,7 @@ export default {
 		editSubmit: function () {
 			this.$refs.editForm.form().validate((valid) => {
 				if (valid) {
-					this.$confirm(i18n.t('confirm.content'), i18n.t('confirm.title'), {}).then(() => {
+					this.$confirm(i18n.t('page.confirm.content'), i18n.t('page.confirm.title'), {}).then(() => {
 						this.editLoading = true;
 						let params = Object.assign({}, this.$refs.editForm.getFormData());
 						USER_EDIT(params).then(res => {

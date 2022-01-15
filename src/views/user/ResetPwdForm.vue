@@ -10,8 +10,8 @@
 			</el-form-item>
 		</el-form>
 		<div slot="footer" class="dialog-footer">
-			<el-button @click="resetClose">{{$t('dialog.cancel')}}</el-button>
-			<el-button type="primary" @click="resetSubmit" :loading="resetLoading">{{$t('dialog.submit')}}</el-button>
+			<el-button @click="resetClose">{{$t('page.dialog.cancel')}}</el-button>
+			<el-button type="primary" @click="resetSubmit" :loading="resetLoading">{{$t('page.dialog.submit')}}</el-button>
 		</div>
 	</el-dialog>
 </template>
@@ -71,7 +71,7 @@ export default {
 		resetSubmit: function () {
 			this.$refs.resetForm.validate((valid) => {
 				if (valid) {
-					this.$confirm(i18n.t('confirm.content'), i18n.t('confirm.title'), {}).then(() => {
+					this.$confirm(i18n.t('page.confirm.content'), i18n.t('page.confirm.title'), {}).then(() => {
 						this.resetLoading = true;
 						let params = {
 							userId: this.resetForm.id,

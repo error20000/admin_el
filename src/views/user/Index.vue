@@ -4,11 +4,11 @@
 			<el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
 				<el-tabs value="filter" >
 					<!-- filter -->
-					<el-tab-pane :label="$t('label.filter')" name="filter" disabled  v-hasAuth="authBtn.query">
+					<el-tab-pane :label="$t('page.label.filter')" name="filter" disabled  v-hasAuth="authBtn.query">
 						<div class="filter-panel">
 							<filter-form ref="filterForm" :filters="filters" @query="handleQuery" @reset="handleReset" class="filter-form" />
 							<div class="btn-add"  v-hasAuth="authBtn.add">
-								<el-button @click="handleAdd" :title="$t('label.title.add')" icon="fa fa-plus" type="primary"></el-button>
+								<el-button @click="handleAdd" :title="$t('page.title.add')" icon="fa fa-plus" type="primary"></el-button>
 							</div>
 						</div>
 					</el-tab-pane>
@@ -17,11 +17,11 @@
 		</el-row>
 
 		<el-tabs class="result" v-model="activeTab" >
-			<el-tab-pane :label="$t('label.result')" name="table" disabled  v-hasAuth="authBtn.query">
+			<el-tab-pane :label="$t('page.label.result')" name="table" disabled  v-hasAuth="authBtn.query">
 				<!-- table -->
 				<table-form ref="tableForm" :filterForm="filterForm">
 					<!-- test
-					<template v-slot:item_id>
+					<template v-slot:column_id>
 						<el-table-column  
 							label="item.name" prop="id" >
 							<template v-slot:default="scope">
@@ -32,12 +32,15 @@
 					<!-- action -->
 					<template v-slot:action="scope">
 						<el-dropdown trigger="click">
-							<el-button type="primary" >
+							<!-- <el-button type="primary" >
 								<i class="fa fa-cog"></i>
-							</el-button>
+							</el-button> -->
+							<span class="el-dropdown-link">
+								更多<i class="el-icon-arrow-down el-icon--right"></i>
+							</span>
 							<el-dropdown-menu slot="dropdown">
 								<el-dropdown-item @click.native="handleEdit(scope.$index, scope.row)" v-hasAuth="authBtn.update">
-									<i class="fa fa-edit"></i>&nbsp;{{$t('label.title.edit')}}
+									<i class="fa fa-edit"></i>&nbsp;{{$t('page.label.edit')}}
 								</el-dropdown-item>
 								<el-dropdown-item @click.native="handleResetPwd(scope.$index, scope.row)" divided v-hasAuth="authBtn.resetPwd">
 									<i class="fa fa-key"></i>&nbsp;{{$t('user.button.resetPwd')}}
@@ -46,7 +49,7 @@
 									<i class="fa fa-lock"></i>&nbsp;&nbsp;{{$t('user.button.auth')}}
 								</el-dropdown-item>
 								<el-dropdown-item @click.native="handleDel(scope.$index, scope.row)" divided class="table-row-del" v-hasAuth="authBtn.delete">
-									<i class="fa fa-trash"></i>&nbsp;{{$t('label.title.del')}}
+									<i class="fa fa-trash"></i>&nbsp;{{$t('page.label.del')}}
 								</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
@@ -168,5 +171,10 @@ export default {
 	}
 	.table-row-del{
 		color: #f56c6c;
+	}
+	.el-dropdown-link {
+		cursor: pointer;
+		color: #409EFF;
+		font-size: 12px;
 	}
 </style>

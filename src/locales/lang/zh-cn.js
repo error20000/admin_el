@@ -4,6 +4,7 @@ const zhCN = require('element-ui/lib/locale/lang/zh-CN');
 const zh = Object.assign({
     name: "中文",
     sysName: "后台管理",
+    //操作提示
     res:{
         message: {
             success: "成功",
@@ -13,11 +14,22 @@ const zh = Object.assign({
             failed: "失败",
         }
     },
-    label: {
-        filter: "筛选",
-        result: "结果",
-        action: "操作",
-        title: {
+    //页面
+    page: {
+        //页面标签
+        label:{
+            filter: "筛选",
+            result: "结果",
+            action: "操作",
+            add: "新增",
+            edit: "编辑",
+            view: "查看",
+            del: "删除",
+            reset: "重置",
+            column: "列展示",
+        },
+        //页面提示
+        title:{
             query: "查询",
             reset: "重置",
             import: "导入",
@@ -28,8 +40,54 @@ const zh = Object.assign({
             del: "删除",
             batchDel: "批量删除",
             upload: "上传",
-        }
+            refresh: "刷新",
+            columnSet: "列设置",
+        },
+        //页面弹窗
+        dialog: {
+            add: "新增",
+            edit: "编辑",
+            view: "查看",
+            close: "关闭",
+            cancel: "取消",
+            submit: "提交", 
+            confirm: "确定",
+        },
+        confirm:{
+            title: "提示",
+            content: "确定提交吗?", 
+            delete: "确定删除该条记录吗?",
+        },
     },
+    //公用的
+    global:{
+        //公用字段
+        fields:{
+            id: "ID",
+            status: "状态",
+            sort: "排序",
+        },
+        //公用格式化字段
+        format:{
+            def: {
+                disable: "否",
+                enable: "是",
+            },
+            status: {
+                disable: "禁用",
+                enable: "启用",
+            },
+        },
+        //选项
+        options: {
+            def: {
+                disable: "否",
+                enable: "是",
+            },
+        },
+    },
+
+
     pwd: {
         regTips: "（密码包含 数字和英文，长度6-20）",
         form: {
@@ -48,17 +106,6 @@ const zh = Object.assign({
             pwd: "请输入密码",
             pwd2: "请再次输入密码",
         }
-    },
-    dialog: {
-        close: "关闭",
-        cancel: "取消",
-        submit: "提交", 
-        confirm: "确定",
-    },
-    confirm:{
-        title: "提示",
-        content: "确定提交吗?", 
-        delete: "确定删除该条记录吗?",
     },
 
     //login
@@ -98,37 +145,6 @@ const zh = Object.assign({
                 title: "密码修改",
             },
         }
-    },
-
-    //公用字段
-    normal: {
-        fields:{
-            id: "ID",
-            status: "状态",
-            sort: "排序",
-        }
-    }, 
-    //公用格式化字段
-    format:{
-        def: {
-            disable: "否",
-            enable: "是",
-        },
-        status: {
-            disable: "禁用",
-            enable: "启用",
-        },
-        admin: {
-            disable: "否",
-            enable: "是",
-        },
-    },
-    //选项
-    options: {
-        def: {
-            disable: "否",
-            enable: "是",
-        },
     },
 
     //user

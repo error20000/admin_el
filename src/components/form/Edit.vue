@@ -29,7 +29,7 @@
 						:action="item.form.uploadUrl"
 						:on-success="function(res, file){return handleFileUpload(res, file, 'editForm', item.field);}"
 						:show-file-list="false">
-					<el-button icon="el-icon-upload" :title="$t('label.title.upload')"></el-button>
+					<el-button icon="el-icon-upload" :title="$t('page.title.upload')"></el-button>
 					</el-upload>
 				</el-input>
 			</el-form-item>

@@ -7,6 +7,7 @@
         show: false, //是否显示，默认true
         table: {
             show: true, //表格栏：是否显示，默认true
+            sortable: true, //表格栏：远程排序，默认false
             width: "", //表格栏：宽度
             fixed: "", //表格栏：固定
             formatter: ()=>{} //表格栏：格式化
@@ -30,6 +31,7 @@ let fields = {
         name: i18n.t("normal.fields.id"),
         field: "id",
         table: {
+            sortable: true
         },
         form: {
             show: false,

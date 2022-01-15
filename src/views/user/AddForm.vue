@@ -1,10 +1,10 @@
 <template>
 	<!-- add -->
-	<el-dialog :title="$t('label.title.add')" :visible.sync="addFormVisible" :close-on-click-modal="false">	
+	<el-dialog :title="$t('page.dialog.add')" :visible.sync="addFormVisible" :close-on-click-modal="false">	
 		<add :fields="fields" :rules="rules" ref="addForm"></add>
 		<div slot="footer" class="dialog-footer">
-			<el-button @click="addClose">{{$t('dialog.cancel')}}</el-button>
-			<el-button type="primary" @click="addSubmit" :loading="addLoading">{{$t('dialog.submit')}}</el-button>
+			<el-button @click="addClose">{{$t('page.dialog.cancel')}}</el-button>
+			<el-button type="primary" @click="addSubmit" :loading="addLoading">{{$t('page.dialog.submit')}}</el-button>
 		</div>
 	</el-dialog>
 </template>
@@ -60,7 +60,7 @@ export default {
 		addSubmit: function () {
 			this.$refs.addForm.form().validate((valid) => {
 				if (valid) {
-					this.$confirm(i18n.t('confirm.content'), i18n.t('confirm.title'), {}).then(() => {
+					this.$confirm(i18n.t('page.confirm.content'), i18n.t('page.confirm.title'), {}).then(() => {
 						this.addLoading = true;
 						let params = Object.assign({}, this.$refs.addForm.getFormData());
 						USER_ADD(params).then(res => {
