@@ -86,6 +86,21 @@ const zh = Object.assign({
             },
         },
     },
+    //test
+    test: {
+        filters: {
+        },
+        rules:{
+        },
+        fields:{
+        },
+        options: {
+        },
+        button: {
+        },
+        dialog: {
+        }
+    },
 
 
     pwd: {
